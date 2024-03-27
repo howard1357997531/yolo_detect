@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Photo_search</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/image/image_multiple_folder.css' %}" rel="stylesheet">
+<link href="{% static 'css/image/photo.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid photo image_multiple_folder" style="position: relative; min-height: 90vh;">
+    {% csrf_token %}
+    <h1 class="text-center h1-3D" id="photo-search-title">Photo search</h1>
+
+    {% for date, date_id, zip_name in date_zip %}
+    <div class="photo-card photo-card{{date|cut:' / '}}" style="position: relative;">
+        <p class="datetime" id="d{{date_id}}">{{date}}</p>
+        <div class="photo-btn-group">
+            <a href="#" class="photo-download-all btn-style1" data-datetime="{{date}}" data-date_id="{{date_id}}">Download All</a>
+            {% if request.user.is_authenticated or request.user.is_superuser %}              
+                <a href="#" class="photo-delete-all btn-style1" data-datetime="{{date}}"
+                    data-date-created="{{date|cut:' / '}}">Delete All</a>
+            {% endif %}
+            <a href="{% static zip_name %}" class="zip_download{{date_id}}" style="display: none;" download></a>
+        </div>
+        <hr>    
+        <div class="f f{{date|cut:' / '}}"> 
+            {% for photo in photos %}
+                {% if photo.created_at|date:"Y / m / d" == date %}
+                    <div class="folder folder{{photo.id}}" data-url="{% static photo.image_file.url %}" data-name="{{photo.name}}"
+                            data-id="{{photo.id}}" data-toggle="modal" data-target="#Modal{{photo.id}}">
+                        <img class="item{{photo.id}}" src="{% static photo.image_file.url %}" alt="">
+                        <a href="{% static photo.image_file.url %}" class="photo-download-id{{photo.id}}" download
+                        style="display: none;"></a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <p id="photo-empty">相簿是空的</p>
+    {% endfor %}
+    <p id="photo-empty" style="display: none;">相簿是空的</p>
+    
+    <!-- 假設有六頁 -->
+    <!-- 
+    <p>photos.number : {{photos.number}}</p>                             <span>1</span>
+    <p>photos.paginator.page_range : {{photos.paginator.page_range}}</p> <span>range(1, 7)</span>
+    <p>photos.paginator.num_pages : {{photos.paginator.num_pages}}</p>   <span>6</span> -->
+
+    {% if photos.has_other_pages %}
+    <ul class="pagination justify-content-center my-4 pagination-custom">
+        {% if photos.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1" id="pagination-first">First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{photos.previous_page_number}}"><i class="fas fa-angle-double-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"></li>
+        {% endif %}
+
+        {% if photos.number|add:'-2' > 1%}
+        <li class="page-item"><a class="page-link">&hellip;</a></li>
+        {% endif %}
+
+        {% for i in photos.paginator.page_range %}
+            {% if photos.number == i %}
+            <li class="page-item active"><a class="page-link">{{i}}</a></li>
+            {% elif i > photos.number|add:'-2' and i < photos.number|add:'2' %}
+            <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {%  if photos.paginator.num_pages > photos.number|add:'2' %}
+        <li class="page-item"><a class="page-link">&hellip;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{photos.paginator.num_pages}}">{{photos.paginator.num_pages}}</a></li>
+        {% endif %}
+
+        {% if photos.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{photos.next_page_number}}"><i class="fas fa-angle-double-right"></i></a></li>
+        <li class="page-item"><a class="page-link" href="?page={{photos.paginator.num_pages}}" id="pagination-last">Last</a></li>
+        {% else %}
+        <li class="page-item disabled"></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
+
+<style>
+    .modal h3 {
+        color: var(--bg-orange);
+    }
+
+    .modal hr {
+        background-color: var(--sidebar-inside-color-hover);
+    }
+
+    .modal .div {
+        display: flex;
+        justify-content: center;
+    }
+
+    .modal img {
+        width: 95%;
+    }
+
+    .modal p {
+        display: flex;
+        justify-content: right;
+        width: 95%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .modal .t-second-style {
+        font-size: small;
+        color: var(--bg-orange);
+        margin-top: 5.5px;
+        margin-left: 5px;
+    }
+
+    .modal .btn-group {
+        width: 95%;
+    }
+
+    .modal .photo-modal-download {
+        width: 50%;
+        padding: 9px 15px;
+        background-color: transparent;
+    }
+
+
+    .modal .photo-modal-download:active {
+        transform: scale(0.9);
+    }
+
+    .modal .photo-modal-delete {
+        width: 50%;
+        padding: 9px 15px;
+        background-color: transparent;
+    }
+
+    .modal .photo-modal-delete:active {
+        transform: scale(0.9);
+    }
+
+    .modal .btn-style1 {
+        border: 2px solid transparent;
+        color: #FFF;
+        transition: all 0.5s;
+        position: relative;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .modal .btn-style1::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba(255,255,255,0.3);
+        transition: all 0.3s;
+    }
+
+    .modal .btn-style1:hover::before {
+        opacity: 0 ;
+        transform: scale(0.5,0.5);
+    }
+
+    .modal .btn-style1::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: all 0.3s;
+        border: 1px solid rgba(255,255,255,0.8);
+        transform: scale(1.2,1.2);
+    }
+
+    .modal .btn-style1:hover::after {
+        opacity: 1;
+        transform: scale(1,1);
+    }
+
+    @media screen and (max-width: 991px) {
+        .modal h3 {
+            font-size: 25px;
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        .modal h3 {
+            font-size: 18px;
+        }
+
+        .modal p {
+            font-size: 15px;
+        }
+
+        .modal .t-second-style {
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .modal .btn-style1 {
+            font-size: small;
+        }
+    }
+
+</style>
+
+<!-- Modal -->
+{% for photo in photos %}
+<div class="modal fade" id="Modal{{photo.id}}" tabindex="-1" aria-labelledby="ModalLabel{{photo.id}}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="background-color: var(--sidebar-inside-color);">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: #d1e5ff">&times;</span>
+            </button>
+            <h3 class="text-center">{{photo.name}}</h3>
+            <hr>
+            <div class="div">
+                <img src="{% static photo.image_file.url %}" alt="">
+            </div>
+            <div class="div">
+                <p> 
+                    {{photo.created_at|date:'H'}} &nbsp;
+                    <span class="t-hour">h</span> &nbsp;
+                    {{photo.created_at|date:'i'}} &nbsp;
+                    <span class="t-minute">m</span> &nbsp;
+                    <span class="t-second-style">{{photo.created_at|date:'s'}}</span>
+                    <span class="t-second-style t-second">s</span>
+                </p>
+            </div>    
+            <hr>
+            <div class="div">
+                <div class="btn-group">
+                    <a class="photo-modal-download btn-style1" href="{% static photo.image_file.url %}" download="">Download</a>
+                    <button type="button" class="photo-modal-delete btn-style1" data-id="{{photo.id}}" data-name="{{photo.name}}"
+                            data-date-created="{{photo.created_at|date:'Ymd'}}">Delete</button>
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/image/photo.js' %}"></script>
+<script src="{% static 'js/image/photo_search.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        if (window.innerWidth < 576) {
+            $('.modal-dialog.modal-dialog-centered').removeClass('modal-lg').addClass('modal-sm');
+        }
+        window.addEventListener('resize', ()=>{
+            if (window.innerWidth < 576) {
+                $('.modal-dialog.modal-dialog-centered').removeClass('modal-lg').addClass('modal-sm');
+            } else {
+                $('.modal-dialog.modal-dialog-centered').removeClass('modal-sm').addClass('modal-lg');
+            }
+        })
+
+    });
+</script>
+{% endblock %}

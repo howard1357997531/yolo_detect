@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>image_multiple</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/mainapp/image_multiple.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center h1-3D" id="image-multiple-title">Multiple Image</h1>
+    <div class="yolo-image-multiple mx-auto">
+        <i class="fas fa-exclamation-circle tool-icon"></i>
+        <div class="tool" style="display: none;">
+            <p class="tool-text1">同步儲存至相簿</p>
+            <p class="tool-text2">最大張數 : </p>
+            <input type="range" class="rangeInput" id="rangeInput" min="0" max="200" value="100"
+            oninput="amount.value=rangeInput.value">
+            <p style="text-align: center;"><output id="amount" name="amount" for="rangeInput">100</output></p>
+            
+        </div>
+        <form action="#" class="dropzone" id="my-dropzone">
+        {% csrf_token %}       
+        </form>
+        
+        <div class="web-camera-groupbtn" style="display: none;">
+            <button class="left-btn btn-style1" id="image-multiple-openbtn">Detect</button>
+            <button class="right-btn btn-style1" id="image-multiple-closebtn">Close</button>
+        </div>
+    </div>               
+</div>
+
+<!-- Loading Modal-->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content h-490">
+        <div class="modal-body" style="height: 500px; background-color: var(--sidebar-inside-color);">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="h250">
+                <div class="bar m-auto">
+                    <div class="circle"></div>
+                    <p class="p" id="image-modal">loading...</p>
+                  </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/mainapp/image_multiple.js' %}"></script>
+{% endblock %}

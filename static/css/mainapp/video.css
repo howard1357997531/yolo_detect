@@ -1,0 +1,319 @@
+:root {
+    --sidebar-color: cornflowerblue;
+    --sidebar-inside-color: cadetblue;
+    --sidebar-inside-color-hover: rgb(94, 200, 204);
+    --sidebar-main-textcolor: rgb(63, 94, 152);
+    --bg-1: rgb(243, 224, 201);
+    --bg-1-3d-secondColor: rgba(105, 105, 105, 0.5);
+    --bg-2: rgb(222, 211, 227);
+    --bg-orange: rgb(255, 169, 20);
+    --bg-orange-hover: rgb(170, 114, 18);
+    --bg-red: firebrick;
+    --bg-red-hover: rgb(111, 20, 20);
+    --bg-light-red: rgb(214, 134, 134);
+    --bg-light-red-hover: rgb(154, 68, 68);
+    --bg-purple: rgb(99, 57, 190);
+    --bg-purple-hover: rgb(63, 37, 120);
+    --bg-light-purple: rgb(222, 211, 227);
+    --bg-light-purple-hover: rgb(190, 179, 195);
+    --bg-brown: brown;
+}
+
+.h1-3D {
+    margin-bottom: 12px !important;
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--bg-light-red);
+    text-shadow: 1px 1px 0px var(--bg-light-red-hover),
+                1px 1px 0px var(--bg-light-red-hover),
+                1px 2px 0px var(--bg-light-red-hover),
+                1px 2px 0px var(--bg-light-red-hover),
+                1px 3px 0px var(--bg-light-red-hover),
+                1px 3px 0px var(--bg-light-red-hover),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+    transition: all 0.5s ease-in-out;
+}
+
+.h1-3D-dark {
+    color: var(--sidebar-inside-color);
+    text-shadow: 1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+}
+
+/* video */
+.yolo-video .wh {
+    width: 56vw;
+    height: 31.5vw;
+    position: relative;
+}
+
+.yolo-video .relative {
+    position: relative !important;
+    width: inherit;
+    height: inherit;
+}
+
+.yolo-video .first-container {
+    position: absolute !important;
+    width: inherit;
+    height: inherit;
+    z-index: 1;
+    opacity: 1;
+}
+
+.yolo-video .first-container .video_output {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    z-index: 2;
+}
+
+.yolo-video .card1 {
+    position: relative;
+    background-color: var(--bg-light-red);
+    width: inherit;
+    height: inherit;
+    border: none !important;
+}
+
+.yolo-video .image_card_border {
+    outline: 4.5px double var(--bg-light-red-hover);
+    transition: all 0.2s ease-in-out;
+}
+
+.yolo-video .image_card_border_dark {
+    outline: 4.5px double var(--sidebar-inside-color) !important;
+}
+
+.yolo-video .upload_button {
+    position: absolute;
+    background-color: var(--sidebar-inside-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.yolo-video .upload_button input[type='file'] {
+    display: None;
+}
+
+.yolo-video .upload_button label {
+    width: 200px;
+    height: 60px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+}
+
+.yolo-video .upload_button label:hover {
+    background-color: var(--sidebar-inside-color-hover);
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.05);
+    border-radius: 2px;
+}
+
+.yolo-video .upload_button label:active {
+    transition: all 0.1s ease-in-out;
+    transform: scale(1.01);
+    border-radius: 2px;
+}
+
+.yolo-video .text {
+    color: var(--bg-purple) !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 200%)
+}
+
+.yolo-video .loading-icon {
+    position: absolute;
+    display: none;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+    z-index: 0;
+    width: 100px;
+    height: 100px;
+    border: 10px solid #dddddd;
+    border-top-color: var(--sidebar-inside-color);
+    border-radius: 50%;
+    animation: loading-icon 1.2s infinite;
+} 
+
+@keyframes loading-icon {
+    0% { transform: rotate(0turn);}
+    25% {border-top-color: var(--sidebar-inside-color)}
+    33% { border-top-color: var(--bg-red)}
+    66% { border-top-color: var(--bg-purple);}
+    100% { transform: rotate(1turn); border-top-color: var(--bg-purple);}
+}
+
+.yolo-video .loading-text {
+    display: none;
+    color: var(--sidebar-inside-color);
+    font-weight: bold;
+    font-size: small;
+    position: absolute;
+    top: calc(50.5% - 9.75px);
+    left: calc(50% - 21.75px);
+    z-index: 0;
+    animation: loading-text 1.2s infinite;
+} 
+
+@keyframes loading-text {
+    0% { transform: scale(1.1);}
+    25% { color: var(--sidebar-inside-color)}
+    33% { color: var(--bg-red)}
+    66% { color: var(--bg-purple);}
+    100% { transform: scale(1.5); color: var(--bg-purple);}
+}
+
+.image-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.yolo-video .btn-style1 {
+    width: 49.5%;
+    border: 2px solid rgba(154, 68, 68, 0.4);
+    color: var(--bg-light-red);
+    padding: 9px 12px;
+}
+
+.yolo-video .btn-style1::before {
+    background-color: rgba(154, 68, 68, 0.4);
+}
+
+.yolo-video .btn-style1::after {
+    border: 2px solid var(--bg-light-red-hover);
+}
+
+.yolo-video .btn-style1:active {
+    transform: scale(0.9);
+    border: 2px solid transparent;
+}
+
+.yolo-video .btn-style1-dark {
+    border: 2px solid rgba(95, 158, 160, 0.278);
+    color: var(--sidebar-inside-color-hover);
+}
+
+.image-btn .btn-style1-dark::before {
+    background-color: rgba(95, 158, 160, 0.278);
+}
+
+.image-btn .btn-style1-dark::after {
+    border: 1px solid var(--sidebar-inside-color-hover);
+}
+
+@media screen and (max-width: 1200px){
+    .yolo-video .wh {
+        width: 72vw;
+        height: 40.5vw;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .yolo-video .wh {
+        width: 68vw;
+        height: 36vw;
+    }
+}
+
+@media screen and (max-width: 767px){
+    #video-title {
+        font-size: 30px;
+    }
+
+    .yolo-video .wh {
+        width: 80vw;
+        height: 45vw;
+    }
+
+    .yolo-video .upload_button label {
+        width: 150px;
+        height: 50px;
+        font-size: small;
+    }
+
+    .yolo-video .text {
+        transform: translate(-50%, 150%);
+        font-size: small;
+        top: 55%;
+    } 
+    
+    .image-btn .left-btn,
+    .image-btn .right-btn{
+        font-size: small;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .yolo-video .wh {
+        width: 72vw;
+        height: 40.5vw;
+    }
+
+    .yolo-video .loading-icon {
+        top: calc(50% - 30px);
+        left: calc(50% - 30px);
+        width: 60px;
+        height: 60px;
+        border: 6px solid #dddddd;
+    }
+    
+    .yolo-video .loading-text {
+        font-size: 10px;
+        position: absolute;
+        top: calc(50% - 5px);
+        left: calc(50% - 20px);
+    }
+
+    .image-btn .left-btn,
+    .image-btn .right-btn{
+        padding: 6px;
+    }
+}
+
+@media screen and (max-width: 489px){
+    .yolo-video .upload_button label {
+        width: 130px;
+        height: 40px;
+        font-size: 10px;
+    }
+
+    .yolo-video .text {
+        font-size: small;
+        top: 50%;
+    }
+
+    .yolo-video .btn-style1 {
+        width: 49%;
+    }
+}
+
+@media screen and (max-width: 440px){
+    .yolo-video .wh {
+        width: 68vw;
+        height: 38.25vw;
+    }
+}

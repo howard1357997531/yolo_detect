@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Camera_split_setting</title>{% endblock %}
+{% block css %}
+<link href="{% static 'cropper/cropper.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/mainapp/camera_split_setting.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center h1-3D" id="camera-split-setting-title">相機裁切設定</h1>
+<div class="camera-cropper-container">
+    <table class="table table-bordered">
+        <tr>
+            <th>相機</th>
+            <th>狀態</th>
+            <th></th>
+        </tr>
+        {% for camera_name, camera_is_original_state, camera_is_connected in camera_zip %}
+        <tr>
+            <td class="camera-name">{{camera_name}}</td>
+            {% if camera_is_connected %}
+              {% if camera_is_original_state %}
+                <td class="camera-name">原始尺寸</td>
+              {% else %}
+                <td style="color: var(--sidebar-color); font-weight: bold;">修改尺寸</td>
+              {% endif %}
+            <td>
+              <button class="{{camera_name}}-btn btn-style1" data-toggle="modal" data-target="#{{camera_name}}Modal">設定</button>
+            </td>
+            {% else %}
+            <td style="color: var(--bg-orange);">尚未連接 <span><i class="fas fa-sync-alt"></i></span></td>
+            <td>
+              <button class="btn-style1" style="opacity: 0; cursor: initial;" disabled>設定</button>
+            </td>
+            {% endif %}
+            
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Modal -->
+{% for camera_name, camera_is_original_state, camera_is_connected in camera_zip %}
+<div class="modal fade" id="{{camera_name}}Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+      <div class="modal-content" style="background-color: var(--sidebar-inside-color);">
+        <div class="modal-header">
+          <p class="modal-title" id="{{camera_name}}ModalLabel">{{camera_name}}</p>
+          <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="color: #d1e5ff">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          <div class="modal-image-crop">
+            <div class="modal-camera {{camera_name}}">
+              <div class="loading modal-loading">
+                <div></div> <div></div> <div></div>
+              </div>
+              <p class="modal-loading-text">影像載入中</p>
+              <p class="modal-loading-text2">
+                (若無法成功顯示影像請重新刷新頁面)
+                <span><i class="fas fa-sync-alt"></i></span>
+              </p>
+            </div>
+            <button class="{{camera_name}}-crop-btn modal-crop-btn">裁切</button>
+            <div class="modal-camera">
+                <img id="{{camera_name}}-output" src="" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <div class="group-btn">
+                <button type="button" class="original-btn btn-style1" data-camera="{{camera_name}}">原始尺寸</button>
+                <button type="button" class="save-btn btn-style1 ml-3" data-camera="{{camera_name}}">儲存</button>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'cropper/cropper.min.js' %}"></script>
+<script src="{% static 'js/mainapp/camera_split_setting.js' %}"></script>
+<script>
+  $(document).ready(function () {
+      if (window.innerWidth < 576) {
+          $('.modal-dialog.modal-dialog-centered').removeClass('modal-xl').addClass('modal-sm');
+      }
+      window.addEventListener('resize', ()=>{
+          if (window.innerWidth < 576) {
+              $('.modal-dialog.modal-dialog-centered').removeClass('modal-xl').addClass('modal-sm');
+          } else {
+              $('.modal-dialog.modal-dialog-centered').removeClass('modal-sm').addClass('modal-xl');
+          }
+      })
+
+  });
+</script>
+{% endblock %}

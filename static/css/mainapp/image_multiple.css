@@ -1,0 +1,323 @@
+:root {
+    --sidebar-color: cornflowerblue;
+    --sidebar-inside-color: cadetblue;
+    --sidebar-inside-color-hover: rgb(94, 200, 204);
+    --sidebar-main-textcolor: rgb(63, 94, 152);
+    --bg-1: rgb(242, 204, 153);
+    --bg-1-op-0-2: rgba(242, 203, 153, 0.223);
+    --bg-1-3d-secondColor: rgba(105, 105, 105, 0.5);
+    --bg-2: rgb(222, 211, 227);
+    --bg-orange: rgb(255, 169, 20);
+    --bg-orange-hover: rgb(170, 114, 18);
+    --bg-red: firebrick;
+    --bg-red-hover: rgb(111, 20, 20);
+    --bg-light-red: rgb(214, 134, 134);
+    --bg-light-red-hover: rgb(154, 68, 68);
+    --bg-purple: rgb(99, 57, 190);
+    --bg-purple-hover: rgb(63, 37, 120);
+    --bg-light-purple: rgb(222, 211, 227);
+    --bg-light-purple-op-0-2: rgba(222, 211, 227, 0.45);
+    --bg-light-purple-hover: rgb(190, 179, 195);
+    --bg-brown: brown;
+}
+
+.h1-3D {
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--bg-light-purple);
+    text-shadow: 1px 1px 0px var(--bg-light-purple-hover),
+                1px 1px 0px var(--bg-light-purple-hover),
+                1px 2px 0px var(--bg-light-purple-hover),
+                1px 2px 0px var(--bg-light-purple-hover),
+                1px 3px 0px var(--bg-light-purple-hover),
+                1px 3px 0px var(--bg-light-purple-hover),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+    transition: all 0.5s ease-in-out;
+}
+
+.h1-3D-dark {
+    color: var(--sidebar-inside-color);
+    text-shadow: 1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+}
+
+.yolo-image-multiple {
+    width: 51vw;
+    position: relative;
+}
+
+.tool-icon {
+    font-size: 30px;
+    position: absolute;
+    top: -40px;
+    right: 10px;
+    cursor: pointer;
+    color: var(--bg-orange);
+}
+
+.tool-icon:hover {
+    color: var(--bg-orange-hover);
+    transform: scale(1.4);
+}
+
+.tool-icon:active {
+    color: var(--bg-orange-hover);
+    transform: scale(1);
+}
+
+.tool {
+    width: 145px;
+    height: 135px;
+    padding: 10px 15px;
+    border-left: 2px solid var(--sidebar-inside-color);
+    border-bottom: 2px solid var(--sidebar-inside-color);
+    background-color: var(--bg-orange);
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 999;
+}
+
+.tool-text1 {
+  margin-bottom: 0px !important;
+  font-weight: 600;
+  color: var(--bg-brown);
+}
+
+.tool-text2 {
+    margin-bottom: 15px !important;
+    font-weight: 600;
+    color: var(--bg-brown);
+  }
+
+.tool input[type="range"] {
+    display: block;
+    width: 115px;
+    background: #82CFD0 ;
+    height: 4px;
+    border-radius: 16px;
+    outline: none;
+    /* transition: background 450ms ease-in; */
+    -webkit-appearance: none;
+}
+
+/* 滑動紐 */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-border-radius: 5px;
+    /*16x16px adjusted to be same as 14x14px on moz*/
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    background: var(--bg-purple);
+    border: 2px solid var(--sidebar-inside-color);
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--sidebar-inside-color);
+    border: 2px solid var(--bg-purple);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(0.8);
+}
+
+
+.tool #amount {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 30px;
+    color: var(--bg-purple);
+    font-weight: 600;
+}
+
+#my-dropzone {
+    height: 500px;
+    overflow-y: scroll;
+    padding: 0;
+    border: 2px solid var(--bg-light-purple-hover);
+    background-color: var(--bg-light-purple);
+}
+
+#my-dropzone.border-dark {
+    border: 2px solid var(--sidebar-inside-color) !important;
+}
+
+.dropzone .dz-default.dz-message{
+    margin: 0;
+    height: 496px !important;
+}
+
+.dropzone .dz-button{
+    color: cadetblue !important;
+    font-size: large !important;
+    position: relative;
+    top: calc(50% - 13.5px);
+}
+
+.dropzone .dz-image-preview {
+    margin-right: 0px !important;
+    background-color: var(--bg-2) !important;
+}
+
+.dropzone .dz-preview .dz-image {
+    margin-top: 10px;
+}
+
+
+.dz-error-mark {
+    z-index: 11 !important;
+}
+
+.web-camera-groupbtn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-bottom: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.web-camera-groupbtn .btn-style1 {
+    width: 49%;
+    border: 2px solid var(--bg-light-purple-op-0-2);
+    color: var(--bg-light-purple-hover);
+    padding: 9px 12px;
+}
+
+.web-camera-groupbtn .btn-style1::before {
+    background-color: var(--bg-light-purple-op-0-2);
+}
+
+.web-camera-groupbtn .btn-style1::after {
+    border: 2px solid var(--bg-light-purple-hover);
+}
+
+.web-camera-groupbtn .btn-style1:active {
+    transform: scale(0.9);
+    border: 2px solid transparent;
+}
+
+@media screen and (max-width: 1100px){
+    .yolo-image-multiple {
+        width: 70vw;
+    }
+
+    .dropzone .dz-preview .dz-image {
+        margin: 0 !important;
+    }
+}
+
+@media screen and (max-width: 900px){
+    .yolo-image-multiple {
+        width: 65vw;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .h1-3D {
+        font-size: 30px;
+    }
+
+    .yolo-image-multiple {
+        width: 75vw;
+    }
+
+    .tool-icon {
+        font-size: 20px;
+        top: -30px;
+    }
+
+    #my-dropzone {
+        height: 400px;
+    }
+
+    .dropzone .dz-default.dz-message{
+        height: 396px !important;
+    }
+}
+
+@media screen and (max-width: 560px){
+    .yolo-image-multiple {
+        width: 70vw;
+    }
+
+    .tool {
+        width: 125px;
+        height: 125px;
+        padding-bottom: 0px !important;
+    }
+
+    .tool-text1 {
+        margin-bottom: 0px !important;
+        font-size: small;
+      }
+      
+    .tool-text2 {
+        margin-bottom: 15px !important;
+        font-size: small;
+    }
+    
+    .tool input[type="range"] {
+        width: 95px;
+    }
+
+    #my-dropzone {
+        height: 300px;
+    }
+
+    .dropzone .dz-default.dz-message{
+        height: 296px !important;
+    }
+
+    .dropzone .dz-button {
+        font-size: medium !important;
+    }
+}
+
+@media screen and (max-width: 440px){
+    .h1-3D {
+        font-size: 20px;
+    }
+
+    .yolo-image-multiple {
+        width: 65vw;
+    }
+
+    .tool-icon {
+        font-size: 15px;
+        top: -23px;
+    }
+
+    .dropzone .dz-preview .dz-image {
+        width: 100px !important;
+        height: 100px !important;
+        margin-left: -5px !important;
+    }
+
+    .dropzone .dz-button {
+        font-size: small !important;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .dropzone .dz-preview .dz-image {
+        width: 90px !important;
+        height: 90px !important;
+    }
+}
+

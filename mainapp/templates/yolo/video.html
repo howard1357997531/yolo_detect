@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>video</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/mainapp/video.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid yolo-video">
+    <div class="row">
+        <div class="wh mx-auto"> <!-- 使用relative或absolute後 padding margin會失效 -->
+            <h1 class="text-center h1-3D" id="video-title">Video</h1>
+            <form method="POST" enctype="multipart/form-data" style="height:inherit; width: inherit;">
+                <div class="relative">    
+                    <div class="first-container">
+                        <div class="card card1 image_card_border">
+                            {% csrf_token %}
+                            <div class="upload_button">
+                                <input type="file" name="file" id="file" accept="video/*">
+                                <label for="file" id="video-text">Choose a Video</label>
+                            </div>
+                            <p class="text"></p>
+                            <div class="loading-icon"></div>
+                            <div class="loading-text"><p id="video-loading">loading</p></div>
+                        </div>
+                    </div>
+    
+                </div>
+                
+                <div class="image-btn group-btn text-center">
+                    <button class="left-btn btn-style1" id="video-left-btn" disabled>Detect</button>
+                    <button class="right-btn btn-style1" id="video-right-btn" disabled>Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/mainapp/video.js' %}"></script>
+{% endblock %}

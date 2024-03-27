@@ -1,0 +1,160 @@
+<div class="text-center">
+    <div id="collapseCamera" class="collapse fixed-inner fixed-inner1">
+        <div class="collapse-inner sidebar-inside-color">
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'mainapp:web_camera' %}" id="sidebar-web-camera-fixed">Web Camera</a>
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'mainapp:intel_camera' %}" id="sidebar-intel-camera-fixed">Intel camera</a>
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'mainapp:camera_split' %}" id="sidebar-camera-split-fixed">多台相機</a>
+        </div>
+    </div>
+    <div id="collapseImage" class="collapse fixed-inner fixed-inner2">
+        <div class="collapse-inner sidebar-inside-color">
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'mainapp:image' %}" id="sidebar-single-image-fixed">Single Image</a>
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'mainapp:image_multiple' %}" id="sidebar-multiple-image-fixed">Multiple Image</a>
+        </div>
+    </div>
+    <div id="collapseAlbum" class="collapse fixed-inner fixed-inner3">
+        <div class="collapse-inner sidebar-inside-color">
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'image:photo' %}" id="sidebar-album-photo-fixed">Photo</a>
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'video:album_video' %}" id="sidebar-album-video-fixed">Video</a>
+        </div>
+    </div>
+    <div id="collapseFolder" class="collapse fixed-inner fixed-inner4">
+        <div class="collapse-inner sidebar-inside-color">
+            <a class="collapse-item page-links fixed-inner-a" href="{% url 'image:image_multiple_folder' %}" id="sidebar-folder-multiple-image-fixed">Multiple Image</a>
+        </div>
+    </div>
+    <div id="collapseLanguage" class="collapse fixed-inner fixed-inner5">
+        <div class="py-2 collapse-inner sidebar-inside-color language-select">
+            <a class="collapse-item language-en fixed-inner-a">English</a>
+            <a class="collapse-item language-zh fixed-inner-a">中文</a>
+        </div>
+    </div>
+</div>
+
+<!-- Sidebar -->
+<ul class="navbar-nav sidebar-color sidebar sidebar-dark accordion" id="accordionSidebar" style="transition: all 0.5s ease-in-out; position: fixed; z-index: 20;">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3" id="sidebar-title">Yolo</div>
+    </a>
+
+    <hr class="sidebar-divider my-0">
+    <div class="text-center scroll-part" style="overflow-y: auto;">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'mainapp:home' %}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span id="sidebar-dashboard">Dashboard</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading sidebar-main-textcolor" id="sidebar-tool">Tool</div>
+
+        <li class="nav-item" id="dropdown-nav">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCamera"
+                aria-expanded="true" aria-controls="collapseCamera">
+                <i class="fas fa-duotone fa-camera"></i>
+                <span id="sidebar-camera">Camera</span>
+            </a>
+            <div id="collapseCamera" class="collapse" aria-labelledby="headingCamera" data-parent="#accordionSidebar">
+                <div class="collapse-inner sidebar-inside-color">
+                    <a class="collapse-item text-left page-links " href="{% url 'mainapp:web_camera' %}" id="sidebar-web-camera">Web Camera</a>
+                    <a class="collapse-item text-left page-links" href="{% url 'mainapp:intel_camera' %}" id="sidebar-intel-camera">Intel camera</a>
+                    <a class="collapse-item text-left page-links" href="{% url 'mainapp:camera_split' %}" id="sidebar-camera-split">多台相機</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item" id="dropdown-nav">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseImage"
+                aria-expanded="true" aria-controls="collapseImage">
+                <i class="fas fa-solid fa-image"></i>
+                <span id="sidebar-image">Image</span>
+            </a>
+            <div id="collapseImage" class="collapse" aria-labelledby="headingCamera" data-parent="#accordionSidebar" style="z-index: 99;">
+                <div class="collapse-inner sidebar-inside-color">
+                    <a class="collapse-item text-left page-links" href="{% url 'mainapp:image' %}" id="sidebar-single-image">Single Image</a>
+                    <a class="collapse-item text-left page-links" href="{% url 'mainapp:image_multiple' %}" id="sidebar-multiple-image">Multiple Image</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link page-links" href="{% url 'mainapp:video' %}" id="video-page">
+                <i class="fas fa-solid fa-video"></i>
+                <span id="sidebar-video">Video</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        {% if request.user.is_superuser or not request.user.is_authenticated %}
+            <div class="sidebar-heading sidebar-main-textcolor" id="sidebar-public">Public</div>
+        {% else %}
+            <div class="sidebar-heading sidebar-main-textcolor" id="sidebar-private">Private</div>
+        {% endif %}
+        <li class="nav-item" id="dropdown-nav">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAlbum"
+                aria-expanded="true" aria-controls="collapseAlbum">
+                <i class="fas fa-fw fa-table"></i>
+                <span id="sidebar-album">Album</span>
+            </a>
+            <div id="collapseAlbum" class="collapse" aria-labelledby="headingAlbum" data-parent="#accordionSidebar" style="z-index: 99;">
+                <div class="collapse-inner sidebar-inside-color">
+                    <a class="collapse-item text-left page-links" href="{% url 'image:photo' %}" id="sidebar-album-photo">Photo</a>
+                    <a class="collapse-item text-left page-links" href="{% url 'video:album_video' %}" id="sidebar-album-video">Video</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item" id="dropdown-nav">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFolder"
+                aria-expanded="true" aria-controls="collapseFolder">
+                <i class="fas fa-fw fa-folder"></i>
+                <span id="sidebar-folder">Folder</span>
+            </a>
+            <div id="collapseFolder" class="collapse" aria-labelledby="headingFolder" data-parent="#accordionSidebar" style="z-index: 99;">
+                <div class="collapse-inner sidebar-inside-color">
+                    <a class="collapse-item text-left page-links" href="{% url 'image:image_multiple_folder' %}" id="sidebar-folder-multiple-image">Multiple Image</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link page-links" href="{% url 'auth_user:analyse' %}">
+                <i class="fas fa-solid fa-chart-pie"></i>
+                <span id="sidebar-analyse">Analyse</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading sidebar-main-textcolor" id="sidebar-setting">Setting</div>
+
+        <li class="nav-item" id="dropdown-nav">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseLanguage" aria-expanded="true"
+                aria-controls="collapseLanguage">
+                <i class="fas fa-globe-americas"></i>
+                <span id="sidebar-language">Language</span>
+            </a>
+            <div id="collapseLanguage" class="collapse" aria-labelledby="headingLanguage"
+                data-parent="#accordionSidebar" style="cursor: pointer;">
+                <div class="py-2 collapse-inner sidebar-inside-color language-select">
+                    <a class="collapse-item text-left language-en">English</a>
+                    <a class="collapse-item text-left language-zh">中文</a>
+                </div>
+            </div>
+        </li>
+        
+        <li class="nav-item" {% if request.user.profile.darkmode %}style="display: none;"{% endif %}>
+            <a class="nav-link" id="dark-mode" style="cursor: pointer;">
+                <i class="fas fa-light fa-moon" id="dark-mode-icon"></i>
+                <span class="dark-mode-name" id="sidebar-darkmode">Dark Mode</span></a>
+        </li>
+
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <div class="d-none d-md-inline">
+            <button class="rounded-circle border-0 sidebar-downbtn" id="sidebarToggle"></button>
+        </div>
+        <div style="height: 20px;"></div>
+    </div>
+</ul>

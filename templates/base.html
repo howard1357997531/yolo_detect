@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    {% block title %}{% endblock %}
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'fontawesome-free/css/all.min.css' %}" rel="stylesheet" >
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    {% block css %}{% endblock css %}
+    <style>
+
+    </style>
+</head>
+
+<body id="page-top" onload="auto_darkmode()">
+    <div id="wrapper" style="position: relative;">
+        
+        {% include 'inc/sidebar.html' %}
+
+        <div id="content-wrapper" class="d-flex flex-column left-14-6-0rem" style="transition: all 0.5s ease-in-out; min-height: 100vh; overflow-x: unset; ">
+            <div id="content">
+                {% include 'inc/nav.html' %}
+                {% block content %}  {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <a class="scroll-to-top" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'js/layout/jquery.min.js' %}"></script>
+    <script src="{% static 'js/layout/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript 可以不用-->
+    <script src="{% static 'js/layout/jquery.easing.min.js' %}"></script>
+    <!-- dropzone.js -->
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <!-- alertify.js -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/layout/sb-admin-2.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/change_language.js' %}"></script>
+    {% block script %} 
+    
+    {% endblock %}
+    <input type="hidden" name="user_check" data-user="{{request.user.profile.name}}">
+    <input type="hidden" name="user_darkmode" data-darkmode="{{request.user.profile.darkmode}}">
+    <script>
+        let darkmode = document.querySelector('#dark-mode')
+        let user = document.querySelector('input[name="user_check"]')
+        let user_darkmode = document.querySelector('input[name="user_darkmode"]')
+        
+        function auto_darkmode(check=true) { 
+            let date = new Date();
+            let second = date.getSeconds()
+            let hour = date.getHours()
+            // console.log('小時 : ', hour, ' 秒數 : ',second)
+            // console.log('小時 : ',hour)
+            if (user.getAttribute('data-user')) {
+                if (user_darkmode.getAttribute('data-darkmode') === 'True' && check) {
+                    //console.log('open')
+                    if (second >= 6 && second < 18){
+                        if (localStorage.getItem('dark_mode')) {
+                            darkmode.click()
+                            if (location.pathname === '/auth/analyse/') {
+                                window.location.reload()
+                            }   
+                        }
+                    } else {
+                        if (!localStorage.getItem('dark_mode')) {
+                            darkmode.click()
+                            if (location.pathname === '/auth/analyse/') {
+                                window.location.reload()
+                            }   
+                        }
+                    }
+                } else {
+                    //console.log('close')
+                }
+            }       
+            setTimeout(auto_darkmode, 1000)
+            }       
+    </script>
+</body>
+
+</html>

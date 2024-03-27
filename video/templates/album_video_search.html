@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Album_video</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/image/photo.css' %}" rel="stylesheet">
+<link href="{% static 'css/image/image_multiple_folder.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid photo image_multiple_folder h">
+    {% csrf_token %}
+    <h1 class="text-center h1-3D" id="album-video-search-title">Video Search</h1> 
+   {% for date, date_id, zip_name in date_zip %}
+    <div class="photo-card photo-card{{date|cut:' / '}}" style="position: relative;">
+        <p class="datetime" id="d{{date_id}}">{{date}}</p>
+        <div class="photo-btn-group">
+            <a href="#" class="album-video-download-all btn-style1" data-datetime="{{date}}" data-date_id="{{date_id}}">Download All</a>
+            {% if request.user.is_authenticated or request.user.is_superuser %}              
+                <a href="#" class="album-video-delete-all btn-style1" data-datetime="{{date}}"
+                data-date-created="{{date|cut:' / '}}">Delete All</a>
+            {% endif %}
+            <a href="{% static zip_name %}" class="zip_download{{date_id}}" style="display: none;" download></a>
+        </div>
+        <hr>
+        <div class="f f{{date|cut:' / '}}"> 
+            {% for video in videos %}
+                {% if video.created_at|date:"Y / m / d" == date %} 
+                    <div class="folder folder{{video.id}}" data-url="{% static video.image_file.url %}" data-name="{{video.name}}"
+                            data-id="{{video.id}}" data-toggle="modal" data-target="#Modal{{video.id}}">
+                        <img class="item{{video.id}}" src="{% static video.front_img_name_url %}" alt="">
+                        <a href="{% static video.image_file.url %}" class="video-download-id{{video.id}}" download
+                        style="display: none;"></a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <p id="photo-empty">Album is empty</p>
+    {% endfor %}
+    <p id="photo-empty" style="display: none;">Album is empty</p>
+
+    {% if videos.has_other_pages %}
+    <ul class="pagination justify-content-center my-4 pagination-custom">
+        {% if videos.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1" id="pagination-first">First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{videos.previous_page_number}}"><i class="fas fa-angle-double-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"></li>
+        {% endif %}
+
+        {% if videos.number|add:'-2' > 1%}
+        <li class="page-item"><a class="page-link">&hellip;</a></li>
+        {% endif %}
+
+        {% for i in videos.paginator.page_range %}
+            {% if videos.number == i %}
+            <li class="page-item active"><a class="page-link">{{i}}</a></li>
+            {% elif i > videos.number|add:'-2' and i < videos.number|add:'2' %}
+            <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {%  if videos.paginator.num_pages > videos.number|add:'2' %}
+        <li class="page-item"><a class="page-link">&hellip;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{videos.paginator.num_pages}}">{{videos.paginator.num_pages}}</a></li>
+        {% endif %}
+
+        {% if videos.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{videos.next_page_number}}"><i class="fas fa-angle-double-right"></i></a></li>
+        <li class="page-item"><a class="page-link" href="?page={{videos.paginator.num_pages}}" id="pagination-last">Last</a></li>
+        {% else %}
+        <li class="page-item disabled"></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
+
+<style>
+    .modal h3 {
+        color: var(--bg-orange);
+    }
+
+    .modal hr {
+        background-color: var(--sidebar-inside-color-hover);
+    }
+
+    .modal .div {
+        display: flex;
+        justify-content: center;
+    }
+
+    .modal video {
+        width: 95%;
+    }
+
+    .modal p {
+        display: flex;
+        justify-content: right;
+        width: 95%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .modal .t-second-style {
+        font-size: small;
+        color: var(--bg-orange);
+        margin-top: 5px;
+        margin-left: 5px;
+    }
+
+    .modal .btn-group {
+        width: 95%;
+    }
+
+    .modal .album-video-modal-download {
+        width: 50%;
+        padding: 9px 15px;
+        background-color: transparent;
+    }
+
+
+    .modal .album-video-modal-download:active {
+        transform: scale(0.9);
+    }
+
+    .modal .album-video-modal-delete {
+        width: 50%;
+        padding: 9px 15px;
+        background-color: transparent;
+    }
+
+    .modal .album-video-modal-delete:active {
+        transform: scale(0.9);
+    }
+
+    .modal .btn-style1 {
+        font-weight: initial !important;
+        border: 2px solid transparent;
+        color: #FFF;
+        transition: all 0.5s;
+        position: relative;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .modal .btn-style1::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba(255,255,255,0.3);
+        transition: all 0.3s;
+    }
+
+    .modal .btn-style1:hover::before {
+        opacity: 0 ;
+        transform: scale(0.5,0.5);
+    }
+
+    .modal .btn-style1::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: all 0.3s;
+        border: 1px solid rgba(255,255,255,0.8);
+        transform: scale(1.2,1.2);
+    }
+
+    .modal .btn-style1:hover::after {
+        opacity: 1;
+        transform: scale(1,1);
+    }
+
+    @media screen and (max-width: 991px) {
+        .modal h3 {
+            font-size: 25px;
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        .modal h3 {
+            font-size: 18px;
+        }
+
+        .modal p {
+            font-size: 15px;
+        }
+
+        .modal .t-second-style {
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .modal .btn-style1 {
+            font-size: small;
+        }
+    }
+</style>
+
+<!-- Modal -->
+{% for video in videos %}
+<div class="modal fade" id="Modal{{video.id}}" tabindex="-1" aria-labelledby="ModalLabel{{video.id}}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="background-color: var(--sidebar-inside-color);">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: #d1e5ff">&times;</span>
+            </button>
+            <h3 class="text-center">{{video.name}}</h3>
+            <hr>
+            <div class="div">
+                <video controls="controls">
+                    <source src="{% static video.file_url %}" type="video/mp4">
+                </video>
+            </div>
+            <div class="div">
+                <p> 
+                    {{video.created_at|date:'H'}} &nbsp;
+                    <span class="t-hour">h</span> &nbsp;
+                    {{video.created_at|date:'i'}} &nbsp;
+                    <span class="t-minute">m</span> &nbsp;
+                    <span class="t-second-style">{{video.created_at|date:'s'}}</span>
+                    <span class="t-second-style t-second">s</span>
+                </p>
+            </div>    
+            <hr>
+            <div class="div">
+                <div class="btn-group">
+                    {% if request.user.is_authenticated %}
+                    <a class="album-video-modal-download btn-style1" href="{% static video.file_url %}" download>Download</a>
+                    <button type="button" class="album-video-modal-delete btn-style1" data-id="{{video.id}}" data-name="{{video.name}}"
+                            data-date-created="{{video.created_at|date:'Ymd'}}">Delete</button>
+                    {% else %}
+                    <a class="album-video-modal-download btn-style1" href="{% static video.file_url %}" 
+                       style="width: 100% !important" download>Download</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/video/album_video.js' %}"></script>
+<script src="{% static 'js/image/photo_search.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        if (window.innerWidth < 576) {
+            $('.modal-dialog.modal-dialog-centered').removeClass('modal-lg').addClass('modal-sm');
+        }
+        window.addEventListener('resize', ()=>{
+            if (window.innerWidth < 576) {
+                $('.modal-dialog.modal-dialog-centered').removeClass('modal-lg').addClass('modal-sm');
+            } else {
+                $('.modal-dialog.modal-dialog-centered').removeClass('modal-sm').addClass('modal-lg');
+            }
+        })
+
+    });
+</script>
+{% endblock %}

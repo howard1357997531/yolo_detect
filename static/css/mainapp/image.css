@@ -1,0 +1,371 @@
+:root {
+    --sidebar-color: cornflowerblue;
+    --sidebar-inside-color: cadetblue;
+    --sidebar-inside-color-hover: rgb(94, 200, 204);
+    --sidebar-main-textcolor: rgb(63, 94, 152);
+    --bg-1: rgb(228, 202, 152);
+    --bg-1-op-0-2: rgba(228, 202, 152, 0.332);
+    --bg-1-3d-secondColor: rgba(105, 105, 105, 0.5);
+    --bg-2: rgb(222, 211, 227);
+    --bg-orange: rgb(255, 169, 20);
+    --bg-orange-hover: rgb(170, 114, 18);
+    --bg-red: firebrick;
+    --bg-red-hover: rgb(111, 20, 20);
+    --bg-light-red: rgb(214, 134, 134);
+    --bg-light-red-hover: rgb(154, 68, 68);
+    --bg-purple: rgb(99, 57, 190);
+    --bg-purple-hover: rgb(63, 37, 120);
+    --bg-light-purple: rgb(222, 211, 227);
+    --bg-light-purple-hover: rgb(190, 179, 195);
+    --bg-brown: brown;
+}
+
+.h1-3D {
+    margin-bottom: 12px !important;
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--bg-1);
+    text-shadow: 1px 1px 0px rgb(174, 166, 156),
+                1px 1px 0px rgb(174, 166, 156),
+                1px 2px 0px rgb(174, 166, 156),
+                1px 2px 0px rgb(174, 166, 156),
+                1px 3px 0px rgb(174, 166, 156),
+                1px 3px 0px rgb(174, 166, 156),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+    transition: all 0.5s ease-in-out;
+}
+
+.h1-3D-dark {
+    color: var(--sidebar-inside-color);
+    text-shadow: 1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+}
+
+.yolo-image .wh {
+    width: 40vw;
+    height: 30vw;
+}
+
+.rowflex {
+    justify-content: space-around;
+}
+
+.relative {
+    position: relative !important;
+    width: inherit;
+    height: inherit;
+}
+
+.first-container {
+    position: absolute !important;
+    width: inherit;
+    height: inherit;
+    z-index: 2;
+    opacity: 1;
+    
+}
+
+.second-container {
+    position: absolute !important;
+    height: inherit;
+    z-index: 1;
+    opacity: 0;
+    background-color: var(--bg-1);
+    border: none !important;
+}
+
+.card1 {
+    position: relative;
+    background-color: var(--bg-1);
+    height: inherit;
+}
+
+.image_card_border {
+    outline: 4px dashed var(--bg-1-3d-secondColor);
+}
+
+.image_card_border_dark {
+    outline: 4px dashed var(--sidebar-inside-color);
+}
+
+.card2 {
+    width: inherit;
+    height: inherit;
+    background-color: inherit;
+    outline: 4px solid var(--bg-1);
+    border: none;
+}
+
+.yolo-image i {
+    font-size: 40px;
+    color: var(--sidebar-inside-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    animation: updown .4s linear infinite alternate;
+}
+
+.yolo-image .text {
+    color: #222 !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.yolo-image .upload_button {
+    position: absolute;
+    background-color: var(--sidebar-inside-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.yolo-image .upload_button input[type='file'] {
+    display: None;
+}
+
+.yolo-image .upload_button label {
+    width: 200px;
+    height: 60px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+}
+
+.yolo-image .upload_button label:hover {
+    background-color: var(--sidebar-inside-color-hover);
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.05);
+    border-radius: 2px;
+}
+
+.yolo-image .upload_button label:active {
+    transition: all 0.1s ease-in-out;
+    transform: scale(1.01);
+    border-radius: 2px;
+}
+
+.yolo-image .output-container {
+    height: 600px;
+    position: relative;
+    background-color: var(--bg-1);
+}
+
+.img-card {
+    width: 100%;
+    height: 100%
+}
+
+.card2-img {
+    width: 100%;
+    height: 100%;
+}
+
+.image-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 90px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.image-btn .btn-style1 {
+    width: 49.5%;
+    border: 2px solid var(--bg-1-op-0-2);
+    color: var(--bg-1);
+    padding: 9px 12px;
+}
+
+.image-btn .btn-style1::before {
+    background-color: var(--bg-1-op-0-2);
+}
+
+.image-btn .btn-style1::after {
+    border: 2px solid var(--bg-1);
+}
+
+.image-btn .btn-style1:active {
+    transform: scale(0.9);
+    border: 2px solid transparent;
+}
+
+.image-btn .btn-style1-dark {
+    border: 2px solid rgba(95, 158, 160, 0.278);
+    color: var(--sidebar-inside-color-hover);
+}
+
+.image-btn .btn-style1-dark::before {
+    background-color: rgba(95, 158, 160, 0.278);
+}
+
+.image-btn .btn-style1-dark::after {
+    border: 1px solid var(--sidebar-inside-color-hover);
+}
+
+@keyframes updown {
+    0% {top: 49%;}
+    100% {top: 50%;}
+}
+
+@media screen and (max-width: 1400px){
+    .yolo-image .wh {
+        width: 36vw;
+        height: 27vw;
+    }
+
+    .yolo-image .upload_button label {
+        width: 160px;
+        height: 50px;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .rowflex {
+        flex-direction: column;
+        align-content: center;
+    }
+    
+    .yolo-image .wh {
+        width: 70vw;
+        height: 50vw;
+        margin-bottom: 170px;
+    }
+}
+
+@media screen and (max-width: 900px){
+    .yolo-image .wh {
+        width: 63vw;
+        height: 45vw;
+        margin-bottom: 170px;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .yolo-image h1 {
+        font-size: 30px;
+    }
+
+    .yolo-image .wh {
+        margin-bottom: 130px;
+    }
+
+    .yolo-image i {
+        font-size: 30px;
+    }
+    
+    .image_card_border {
+        outline: 3px dashed gray;
+    }
+    
+    .image_card_border_dark {
+        outline: 3px dashed var(--sidebar-inside-color);
+    }
+
+    .card2 {
+        outline: 3px solid var(--sidebar-inside-color);
+    }
+
+    .yolo-image .svg-img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .yolo-image .text {
+        font-size: small;
+    }
+
+    .yolo-image .upload_button label {
+        width: 150px;
+        height: 45px;
+        font-size: small;
+
+    }
+    .yolo-image .image-btn {
+        margin-top: 70px;
+    }
+
+    .modal {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* 490 */
+@media screen and (max-width: 489px){
+    .yolo-image h1 {
+        font-size: 24px;
+    }
+
+    .yolo-image .wh {
+        margin-bottom: 130px;
+    }
+
+    .image_card_border {
+        outline: 2px dashed gray;
+    }
+    
+    .image_card_border_dark {
+        outline: 2px dashed var(--sidebar-inside-color);
+    }
+
+    .yolo-image .upload_button label {
+        width: 120px;
+        height: 40px;
+        font-size: small;
+    }
+
+    .card2 {
+        outline: 2px solid var(--sidebar-inside-color);
+    }
+    
+    .yolo-image .image-btn {
+        margin-top: 60px;
+    }
+
+    .yolo-image .image-btn .left-btn,
+    .yolo-image .image-btn .right-btn {
+        padding: 6px;
+    }
+    
+    .h-490 {
+        width: 80% !important;
+        height: 300px !important;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 400px){   
+    .yolo-image .wh {
+        width: 66.5vw;
+        height: 47.5vw;
+    }
+
+    .yolo-image .text {
+        font-size: 10px;
+    }
+
+    .yolo-image .upload_button label {
+        width: 110px;
+        height: 35px;
+        font-size: 10px;
+    }
+}
+
+

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Profile</title>{% endblock %}
+{% block css %}<link href="{% static 'css/auth/profile.css' %}" rel="stylesheet">{% endblock css %}
+
+{% block content %}
+<div class="box-container"> 
+    <div class="box-img">
+        <span class="border-line-img"></span>
+        <img class="profile-img" src="{% static profile.imageURL %}" alt="">
+    </div>
+    <div class="box">
+        <span class="border-line"></span>
+        <form action="" method="POST", enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2 id="profile-title">Profile Setting</h2>
+            <div class="inputBox">
+                {{form.name}}
+                <span id="profile-name">Name</span>
+                <i></i>
+            </div>
+            <div class="email-relative">
+                <div class="inputBox">
+                    {{form.email}}
+                    <span class="email-span" id="profile-email">Email</span>
+                    <i class="email-i"></i>
+                </div>
+                {% for message in messages %}
+                    <p id="profile-email-error">{{message}}</p>
+                {% endfor %}
+            </div>
+            
+            <p id="profile-image">Image</p>
+            <div class="upload">
+                {{form.image}}
+                <label for="file" id="profile-file">Choose a Image</label>
+            </div>
+            <button type="submit" id="profile-submitbtn">Send</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/auth/profile.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#profile-submitbtn').click(function () { 
+            $.ajax({
+                type: "POST",
+                url: "/auth/alert_pure_quantity_private_ajax",
+                data: {
+                    csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+                    name: 'profile_setting'
+                },
+                success: function (response) {
+                    
+                },
+                error: function (data) {
+                setTimeout(() => {
+                  Swal.fire({
+                    icon: 'error',
+                    color: '#fff',
+                    background: 'cadetblue',
+                    title: localStorage.getItem('language') === 'zh' ? '發生未知錯誤' : 'An unknown error occurred',
+                  }).then(() => {
+                    window.location.reload();
+                  })
+                }, 2000);
+              },
+            });
+        });
+    });
+</script>
+{% endblock %}

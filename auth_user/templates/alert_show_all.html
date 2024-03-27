@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Alert_show_all</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/auth/alert_show_all.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<h1 class="text-center h1-3D" id="alert-show-all-title">Notification</h1>
+<div class="alert-container">
+    <div class="alert-row">
+        <div class="accordion js-accordion">
+            {% for alert in alerts %}
+            <div class="accordion__item js-accordion-item alert{{forloop.counter}}">
+                <div class="accordion-header js-accordion-header">{{alert.modified_at|date:'Y / m / d'}}
+                    <span>{{alert.modified_at|date:'H : i'}}</span>
+                    <span class="alert-show-all-header-text">您有 {{alert.total_quantity}} 則新通知</span>
+                </div> 
+                <div class="accordion-body js-accordion-body">
+                    <div class="accordion-body__contents alert-content-title">
+                        <p>時間 :</p>
+                        <p class="text">
+                            <span class="span1">{{alert.created_at|date:'Y / m / d'}}</span>
+                            <span>{{alert.created_at|date:'H : i : s'}}</span>
+                            <span class="span3">~</span>
+                            {% if alert.created_at|date:'Ymd' != alert.modified_at|date:'Ymd' %}
+                                <br>
+                                <span class="span4">{{alert.modified_at|date:'Y / m / d'}}</span>
+                            {% endif %}
+                            <span>{{alert.modified_at|date:'H : i : s'}}</span>
+                        </p>
+                    </div>
+                    
+                    <div class="accordion js-accordion">
+                        <!-- image -->
+                        {% if alert.alert_image_quantity > 0 %}
+                        <div class="accordion__item js-accordion-item">
+                            <div class="accordion-header js-accordion-header" style="background-color: var(--bg-1);">
+                                新增 {{alert.alert_image_quantity}} 張相片
+                            </div> 
+                            <div class="accordion-body js-accordion-body">
+                                <div class="scroll-part" style="background-color: var(--bg-1); border-top: 2px solid var(--bg-1-hover);">                              
+                                    {% for image in images %}
+                                        {% if image.code == alert.alert_image_code %}
+                                        <div class="accordion-body__contents cum1">
+                                            <a href="" class="content-cum" data-item="image" data-item-id="{{image.source.id}}"
+                                            data-date="{{image.created_at|date:'Ymd'}}" data-is-deleted="{% if not image.source %}yes{% endif %}">
+                                                {% if image.source %}
+                                                <img src="{% static image.source.image_file.url %}" alt="">
+                                                {% else %}
+                                                <div class="img-empty">
+                                                    <p>已刪除</p>
+                                                </div>
+                                                {% endif %}
+                                                <div class="detail">
+                                                    <p>
+                                                        <span>創建時間</span> : 
+                                                        <span style="margin-right: 10px;">{{image.created_at|date:'Y / m / d'}}</span>
+                                                        <span>{{image.created_at|date:'H : i'}}</span>
+                                                    </p>
+                                                    <p><span>檔案名稱</span> : {{image.name}}</p>
+                                                </div>    
+                                            </a>   
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- video -->
+                        {% if alert.alert_video_quantity > 0 %}
+                        <div class="accordion__item js-accordion-item">
+                            <div class="accordion-header js-accordion-header" style="background-color: var(--bg-light-red)">
+                                新增 {{alert.alert_video_quantity}} 部影片
+                            </div> 
+                            <div class="accordion-body js-accordion-body">
+                                <div class="scroll-part" style="background-color: var(--bg-light-red); border-top: 2px solid var(--bg-light-red-hover);">                              
+                                    {% for video in videos %}
+                                        {% if video.code == alert.alert_video_code %}
+                                        <div class="accordion-body__contents cum2">
+                                            <a href="" class="content-cum" data-item="video" data-item-id="{{video.source.id}}"
+                                            data-date="{{video.created_at|date:'Ymd'}}" data-is-deleted="{% if not video.source %}yes{% endif %}">
+                                                {% if video.source %}
+                                                <img src="{% static video.source.front_img_name_url %}" alt="">
+                                                {% else %}
+                                                <div class="img-empty">
+                                                    <p>已刪除</p>
+                                                </div>
+                                                {% endif %}
+                                                <div class="detail">
+                                                    <p>
+                                                        <span>創建時間</span> : 
+                                                        <span style="margin-right: 10px;">{{video.created_at|date:'Y / m / d'}}</span>
+                                                        <span>{{video.created_at|date:'H : i'}}</span>
+                                                    </p>
+                                                    <p><span>檔案名稱</span> : {{video.name}}</p>
+                                                </div>
+                                            </a>                                         
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- folder -->
+                        {% if alert.alert_folder_quantity > 0 %}
+                        <div class="accordion__item js-accordion-item">
+                            <div class="accordion-header js-accordion-header" style="background-color: var(--bg-light-purple)">
+                                新增 {{alert.alert_folder_quantity}} 個資料夾
+                            </div> 
+                            <div class="accordion-body js-accordion-body">
+                                <div class="scroll-part" style="background-color: var(--bg-light-purple); border-top: 2px solid var(--bg-light-purple-hover);">                              
+                                    {% for folder in folders %}
+                                        {% if folder.code == alert.alert_folder_code %}
+                                        <div class="accordion-body__contents cum3">
+                                            <a href="" class="content-cum" data-item="folder" data-item-id="{{folder.folder_code}}"
+                                            data-date="{{folder.created_at|date:'Ymd'}}" data-is-deleted="{% if folder.is_deleted %}yes{% endif %}">
+                                                {% if not folder.is_deleted %}
+                                                <i class="fas fa-folder"></i>
+                                                {% else %}
+                                                <div style="position: relative;">
+                                                    <i class="fas fa-folder"></i>
+                                                    <p class="folder-delete-p">已刪除</p>
+                                                </div>
+                                                {% endif %}
+                                                <div class="detail">
+                                                    <p>
+                                                        <span>創建時間</span> : 
+                                                        <span style="margin-right: 10px;">{{folder.created_at|date:'Y / m / d'}}</span>
+                                                        <span>{{folder.created_at|date:'H : i'}}</span>
+                                                    </p>
+                                                    <p><span>圖片數量</span> : {{folder.image_quantity}} 
+                                                        {% if folder.delete_quantity != 0 %}
+                                                        - 
+                                                        <span style="color: var(--bg-red);">{{folder.delete_quantity}}<span>(刪除)</span></span> = 
+                                                        <span>{{folder.total_quantity}}</span>
+                                                        {% endif %}
+                                                    </p>
+                                                    
+                                                </div>
+                                            </a>                                        
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- profile_setting -->
+                        {% if alert.alert_pure_profile_setting_quantity > 0 %}
+                        <div class="accordion__item js-accordion-item">
+                            <div class="accordion-header js-accordion-header" style="background-color: var(--bg-light-blue);">
+                                修改 {{alert.alert_pure_profile_setting_quantity}} 次個人資料
+                            </div> 
+                            <div class="accordion-body js-accordion-body">
+                                <div class="scroll-part" style="background-color: var(--bg-light-blue); border-top: 2px solid var(--bg-light-blue-hover);">                              
+                                    {% for pure in pure_quantity %}
+                                        {% if pure.code == alert.alert_pure_code and pure.name == 'profile_setting' %}
+                                        <div class="accordion-body__contents pure pure-cum1">
+                                            <p>
+                                                <span>修改時間</span>&nbsp; :&nbsp;
+                                                <span>{{pure.created_at|date:'Y / m / d'}}</span>
+                                                <span style="margin-left: 10px;">{{pure.created_at|date:'H : i : s'}}</span>
+                                            </p>  
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- password_change -->
+                        {% if alert.alert_pure_password_change_quantity > 0 %}
+                        <div class="accordion__item js-accordion-item">
+                            <div class="accordion-header js-accordion-header" style="background-color: var(--bg-light-orange);">
+                                修改 {{alert.alert_pure_password_change_quantity}} 次密碼
+                            </div> 
+                            <div class="accordion-body js-accordion-body">
+                                <div class="scroll-part" style="background-color: var(--bg-light-orange); border-top: 2px solid var(--bg-light-orange-hover);">                              
+                                    {% for pure in pure_quantity %}
+                                        {% if pure.code == alert.alert_pure_code and pure.name == 'password_change' %}
+                                        <div class="accordion-body__contents pure pure-cum2">
+                                            <p>
+                                                <span>修改時間</span>&nbsp; :&nbsp;
+                                                <span>{{pure.created_at|date:'Y / m / d'}}</span>
+                                                <span style="margin-left: 10px;">{{pure.created_at|date:'H : i : s'}}</span>
+                                            </p>  
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- camera_setting -->
+                        {% if alert.alert_pure_camera_setting_quantity > 0 %}
+                        <div class="accordion__item js-accordion-item">
+                            <div class="accordion-header js-accordion-header" style="background-color: var(--bg-green);">
+                                修改 {{alert.alert_pure_camera_setting_quantity}} 次相機設定
+                            </div> 
+                            <div class="accordion-body js-accordion-body">
+                                <div class="scroll-part" style="background-color: var(--bg-green); border-top: 2px solid var(--bg-green-hover);">                              
+                                    {% for pure in pure_quantity %}
+                                        {% if pure.code == alert.alert_pure_code and pure.name == 'camera_setting' %}
+                                        <div class="accordion-body__contents pure pure-cum3">
+                                            <p>
+                                                <span>修改時間</span>&nbsp; :&nbsp;
+                                                <span>{{pure.created_at|date:'Y / m / d'}}</span>
+                                                <span style="margin-left: 10px;">{{pure.created_at|date:'H : i : s'}}</span>
+                                            </p>  
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div><!-- end of sub accordion -->
+                </div><!-- end of accordion body -->
+            </div><!-- end of accordion item -->
+            {% empty %}
+            <p style="text-align: center;">尚無通知</p>
+            {% endfor %}
+
+            <!-- pagination -->
+            {% if alerts.has_other_pages %}
+            <ul class="pagination justify-content-center pagination-custom">
+                {% if alerts.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{alerts.previous_page_number}}"><i class="fas fa-angle-double-left"></i></a></li>
+                {% else %}
+                <li class="page-item disabled"></li>
+                {% endif %}
+
+                {% if alerts.number|add:'-2' > 1%}
+                <li class="page-item"><a class="page-link">&hellip;</a></li>
+                {% endif %}
+
+                {% for i in alerts.paginator.page_range %}
+                    {% if alerts.number == i %}
+                    <li class="page-item active"><a class="page-link">{{i}}</a></li>
+                    {% elif i > alerts.number|add:'-2' and i < alerts.number|add:'2' %}
+                    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {%  if alerts.paginator.num_pages > alerts.number|add:'2' %}
+                <li class="page-item"><a class="page-link">&hellip;</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{alerts.paginator.num_pages}}">{{alerts.paginator.num_pages}}</a></li>
+                {% endif %}
+
+                {% if alerts.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{alerts.next_page_number}}"><i class="fas fa-angle-double-right"></i></a></li>
+                <li class="page-item"><a class="page-link" href="?page={{alerts.paginator.num_pages}}">Last</a></li>
+                {% else %}
+                <li class="page-item disabled"></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/auth/alert_show_all.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,233 @@
+:root {
+    --sidebar-color: cornflowerblue;
+    --sidebar-inside-color: cadetblue;
+    --sidebar-inside-color-hover: rgb(94, 200, 204);
+    --sidebar-main-textcolor: rgb(63, 94, 152);
+    --bg-1: rgb(228, 202, 152);
+    --bg-1-op-0-2: rgba(228, 202, 152, 0.332);
+    --bg-1-3d-secondColor: rgba(105, 105, 105, 0.5);
+    --bg-2: rgb(222, 211, 227);
+    --bg-orange: rgb(255, 169, 20);
+    --bg-orange-hover: rgb(170, 114, 18);
+    --bg-red: firebrick;
+    --bg-red-hover: rgb(111, 20, 20);
+    --bg-light-red: rgb(214, 134, 134);
+    --bg-light-red-hover: rgb(154, 68, 68);
+    --bg-purple: rgb(99, 57, 190);
+    --bg-purple-hover: rgb(63, 37, 120);
+    --bg-light-purple: rgb(222, 211, 227);
+    --bg-light-purple-hover: rgb(190, 179, 195);
+    --bg-brown: brown;
+}
+.h1-3D {
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--sidebar-inside-color);
+    text-shadow: 1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 1px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 2px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 3px 0px var(--sidebar-inside-color-hover),
+                1px 1px 1px rgba(105, 105, 105, 0.5),
+                1px 1px 1px rgba(105, 105, 105, 0.4),
+                1px 1px 1px rgba(105, 105, 105, 0.3),
+                1px 1px 1px rgba(105, 105, 105, 0.2);
+    transition: all 0.5s ease-in-out;
+}
+
+.container-fluid.h {
+    position: relative !important;
+    min-height: 90vh;
+}
+
+.photo .photo-card {
+    margin-top: -80px;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--sidebar-inside-color);
+}
+
+.photo .datetime {
+    /* 因為<a href="#id">功能會直接讓a到最頂部，最頂部又做fix top, 因此a會被擋住
+       所以在這邊設定 padding-top: 80px 上面 .photo-card { margin-top: -70px; }*/
+    padding-top: 90px !important; 
+    color: var(--bg-purple);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0px !important;
+    transition: all 0.5s ease-in-out;
+}
+
+.photo .mb-60 {
+    margin-bottom: -60px;
+}
+
+.photo .photo-card:last-child {
+    margin-bottom: 500px;
+}
+
+.photo .photo-btn-group {
+    position: absolute;
+    display: flex;
+    justify-content: right;
+    width: 270px !important;
+    top: 76px;
+    right: 0px;
+}
+
+.photo .photo-btn-group .photo-download-all,
+.photo .photo-btn-group .photo-delete-all {
+    margin-left: 5px;
+}
+
+.photo .photo-btn-group .photo-download-all:active,
+.photo .photo-btn-group .photo-delete-all:active {
+    transform: scale(0.85);
+}
+
+.photo-btn-group .btn-style1 {
+    border: 2px solid transparent;
+    font-weight: 600;
+    color: var(--sidebar-inside-color-hover);
+    transition: all 0.5s;
+    position: relative;
+    padding: 6px 9px;
+    margin-left: 5px;
+    background-color: transparent;
+    text-decoration: none !important;
+}
+
+.photo-btn-group .btn-style1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(95, 158, 160, 0.278);
+    transition: all 0.3s;
+}
+
+.photo-btn-group .btn-style1:hover::before {
+    opacity: 0 ;
+    transform: scale(0.5,0.5);
+}
+
+.photo-btn-group .btn-style1::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s;
+    border: 1px solid var(--sidebar-inside-color-hover);
+    transform: scale(1.2,1.2);
+}
+
+.photo-btn-group .btn-style1:hover::after {
+    text-decoration: none;
+    opacity: 1;
+    transform: scale(1,1);
+}
+
+.photo #photo-empty,
+.photo #image-multiple-folder-empty {
+    color: #fff;
+    background-color: var(--bg-purple);
+    padding: 24px 30px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* photo_search */
+.photo-search-back-btn.btn-style1 {
+    width: 70px;
+    border: 2px solid transparent;
+    color: var(--sidebar-inside-color-hover);
+    background-color: transparent;
+    margin-left: 10px;
+    padding: 4px 6px;
+    text-align: center;
+    font-size: medium !important;
+    transition: all 0.5s ease-in-out !important;
+}
+
+.photo-search-back-btn.btn-style1::before {
+    background-color: rgba(95, 158, 160, 0.278);
+}
+
+.photo-search-back-btn.btn-style1::after {
+    border: 1px solid var(--sidebar-inside-color-hover);
+}
+
+.photo-search-back-btn.btn-style1:active {
+    transform: scale(0.9);
+    border: 2px solid transparent;
+}
+
+@media screen and (max-width: 767px){
+    .photo .datetime {
+        font-size: 16px;
+    }
+
+    .photo .photo-btn-group {
+        top: 78px;
+    }
+
+    .photo .photo-btn-group .photo-download-all,
+    .photo .photo-btn-group .photo-delete-all,
+    .photo .photo-btn-group .album-video-download-all,
+    .photo .photo-btn-group .album-video-delete-all {
+        font-size: 14px;
+    }
+
+    .photo-btn-group .btn-style1 {
+        padding: 5px 8px;
+    }
+}
+
+@media screen and (max-width: 560px){
+    .photo .datetime {
+        font-size: 13px;
+    }
+
+    .photo .photo-btn-group {
+        top: 79px;
+    }
+
+    .photo .photo-btn-group .photo-download-all,
+    .photo .photo-btn-group .photo-delete-all,
+    .photo .photo-btn-group .album-video-download-all,
+    .photo .photo-btn-group .album-video-delete-all {
+        font-size: 10px;
+        margin-left: 0px;
+    }
+
+    .photo-btn-group .btn-style1 {
+        padding: 4px 6px;
+    }
+}
+
+
+/* photo_search */
+.item_animation {
+    animation: item .8s linear infinite;
+}
+
+@keyframes item {
+    0% {transform: scale(1); box-shadow: 0 0 10px 8px var(--sidebar-inside-color);}
+    25% {box-shadow: 0 0 10px 8px var(--sidebar-inside-color);}
+    50% {transform: scale(1.1); box-shadow: 0 0 10px 8px var(--bg-purple);}
+    75% {box-shadow: 0 0 10px 8px var(--bg-orange);}
+    100% {transform: scale(1);}
+}

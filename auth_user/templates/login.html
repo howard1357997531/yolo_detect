@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Login</title>{% endblock %}
+{% block css %}<link href="{% static 'css/auth/login.css' %}" rel="stylesheet">{% endblock css %}
+
+{% block content %}
+<div class="box-container">
+    <div class="box">
+        <span class="border-line"></span>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h2 id="login-title">Sign in</h2>
+            <div class="inputBox">
+                <input type="text" name="username" required>
+                <span id="login-username">Username</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="password" name="password" required>
+                <span id="login-password">Password</span>
+                <i></i>
+            </div>
+            <div class="links">
+                <a href="{% url 'password_reset' %}" id="login-forget-password">Forgot Password</a>
+                <a href="{% url 'auth_user:register' %}" id="login-signup">Sign up</a>
+            </div>
+            <button type="submit" id="login-submitbtn">login</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %} 
+<script type="">
+    {% for message in messages %}
+        alertify.warning('{{message|safe}}');
+    {% endfor %}
+</script>
+<!-- <script src="{% static 'js/photo.js' %}"></script> -->
+{% endblock %}

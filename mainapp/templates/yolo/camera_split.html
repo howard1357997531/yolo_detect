@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Camera_split</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/mainapp/camera_split.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="relative-container">
+    <div class="camera-container">
+        <button class="camera-split-btn d-none">縮小</button>
+        <div class="top-container">
+            <div class="top-camera web-camera camera">
+                <img src="/all_camera_video_feed/web-camera/" class="img_output"></img>
+                <div class="loading camera-loading">
+                    <div></div> <div></div> <div></div>
+                </div>
+                <p class="camera-loading-text">影像載入中</p>
+                <p class="camera-loading-text2">
+                    (重新刷新頁面)
+                    <span><i class="fas fa-sync-alt"></i></span>
+                </p>
+                <p class="camera-name">web-camera</p>
+            </div>
+            <div class="top-camera intel-camera camera"> 
+                {% if intel_camera_isopen %}
+                <img src="/all_camera_video_feed/intel-camera/" class="img_output"></img>
+                <div class="loading camera-loading">
+                    <div></div> <div></div> <div></div>
+                </div>
+                <p class="camera-loading-text">影像載入中</p>
+                <p class="camera-loading-text2">
+                    (重新刷新頁面)
+                    <span><i class="fas fa-sync-alt"></i></span>
+                </p>
+                {% else %}
+                <p class="intel-camera-text">尚未連接 <span><i class="fas fa-sync-alt"></i></span></p>
+                {% endif %}
+                <p class="camera-name">intel-camera</p>
+            </div>
+        </div>
+        <div class="down-container">
+            <div class="down-camera camera">
+                <p class="camera-name">camera-3</p>
+                <p class="camera-text">尚未連接 <span><i class="fas fa-sync-alt"></i></span></p>
+            </div>
+            <div class="down-camera camera">
+                <p class="camera-name">camera-4</p>
+                <p class="camera-text">尚未連接 <span><i class="fas fa-sync-alt"></i></span></p>
+            </div>
+            <div class="down-camera camera">
+                <p class="camera-name">camera-5</p>
+                <p class="camera-text">尚未連接 <span><i class="fas fa-sync-alt"></i></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %} 
+<script type="">
+    {% for message in messages %}
+        alertify.warning('{{message|safe}}');
+    {% endfor %}
+</script>
+<script src="{% static 'js/mainapp/camera_split.js' %}"></script>
+{% endblock %}

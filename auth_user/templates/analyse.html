@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Analyse</title>{% endblock %}
+
+{% block content %}
+<div class="container ">
+    <h1 class="text-center mb-5">資料分析</h1>
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <div>
+                <canvas id="myChart" style="color: rgb(94, 203, 233);"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6 mb-5">
+            <div>
+                <canvas id="myChart2" ></canvas>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6 mb-5">
+            <div>
+                <canvas id="myChart3" ></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %} 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js" integrity="sha512-Tfw6etYMUhL4RTki37niav99C6OHwMDB2iBT5S5piyHO+ltK2YX8Hjy9TXxhE1Gm/TmAV0uaykSpnHKFIAif/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="">
+    let titleColor = 'rgb(94, 203, 233)'
+    let lightGreen = 'rgba(0, 255, 72, 0.705)'
+    var darkModeLabelSacelColor = localStorage.getItem('dark_mode') ? 'rgba(0, 255, 72, 0.705)' : 'black'
+
+    const ctx = document.getElementById('myChart');
+    
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{im|safe}},
+        datasets: [{
+          label: '新增圖片數',
+          data: {{im_count|safe}},
+          backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            order: 2,  
+          borderWidth: 1,
+        },{
+          label: '午後新增',
+          data: {{im_pm_count|safe}},
+          backgroundColor: lightGreen,
+          borderColor: lightGreen,
+          //tension:0.4,                              
+          //pointRadius: 2.5,  
+          pointBackgroundColor: 'white',  
+          //pointBorderWidth: 2,
+          pointHoverRadius: 7,
+          pointHoverBorderWidth: 3,
+          hoverBackgroundColor: 'white',
+          borderWidth: 1.5,
+          order: 1,  
+          type: 'line'
+          }]
+      },
+      options: { 
+        scales: {
+                X: {
+                    ticks: {
+                        color: darkModeLabelSacelColor
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: darkModeLabelSacelColor
+                    }
+                }
+            },
+        plugins: {
+            title: {
+                display: true,
+                text: '近七天新增圖片數',
+                color: titleColor,
+                font: {
+                    size: 25,
+                },
+            },
+            legend: {
+                display: true,
+                
+                labels: {
+                    color: darkModeLabelSacelColor
+                }
+            },
+        }
+      },
+    });
+
+    const ctx2 = document.getElementById('myChart2');
+  
+    new Chart(ctx2, {
+      type: 'pie',
+      data: {
+        labels: ['圖片', '影片'],
+        datasets: [{
+          label: '# of Votes',
+          data: {{ratio_list|safe}},
+          backgroundColor: [
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 26, 104, 0.2)',
+          ],
+          borderColor: [
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 26, 104, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+            title: {
+                display: true,
+                text: '圖片和影片個數',
+                color: titleColor,
+                font: {
+                    size: 25,
+                },
+            },
+            legend: {
+                display: true,              
+                labels: {
+                    color: darkModeLabelSacelColor
+                }
+            },
+            tooltip: {
+                enable: false
+            },
+            
+            datalabels: {  
+            align: 'center',
+            color: darkModeLabelSacelColor,
+            formatter: (value, context) => {    
+                //console.log(value);console.log(context);
+                //console.log(context.chart.config.data.datasets[0].data); 
+                const datapoints = context.chart.config.data.datasets[0].data;
+                function totalSum(accumulator, currentValue) {
+
+                return accumulator + currentValue;
+                }                                          
+                const totalvalue = datapoints.reduce(totalSum,0);
+                const percentageValue = (value / totalvalue * 100).toFixed(1);
+                const display = [`${datapoints}`,`${percentageValue}%`] 
+                return `${value} 個`;    
+                }
+            }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    const ctx3 = document.getElementById('myChart3');
+  
+    new Chart(ctx3, {
+      type: 'pie',
+      data: {
+        labels: ['圖片', '影片'],
+        datasets: [{
+          label: '# of Votes',
+          data: {{ratio_list|safe}},
+          backgroundColor: [
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 26, 104, 0.2)',
+          ],
+          borderColor: [
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 26, 104, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+            title: {
+                display: true,
+                text: '圖片和影片比例',
+                color: titleColor,
+                font: {
+                    size: 25,
+                },
+            },
+            legend: {
+                display: true,
+                labels: {
+                    color: darkModeLabelSacelColor
+                }
+            },
+            tooltip: {
+                enable: false
+            },
+            datalabels: {  
+            align: 'center',
+            color: darkModeLabelSacelColor,
+            formatter: (value, context) => {    
+                //console.log(value);console.log(context);
+                //console.log(context.chart.config.data.datasets[0].data); 
+                const datapoints = context.chart.config.data.datasets[0].data;
+                function totalSum(accumulator, currentValue) {
+
+                return accumulator + currentValue;
+                }                                          
+                const totalvalue = datapoints.reduce(totalSum,0);
+                const percentageValue = (value / totalvalue * 100).toFixed(1);
+                const display = [`${datapoints}`,`${percentageValue}%`] 
+                return `${percentageValue} %`;    
+                }
+            }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  </script>
+<!-- <script src="{% static 'js/photo.js' %}"></script> -->
+{% endblock %}

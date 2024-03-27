@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Settings</title>{% endblock %}
+{% block css %}<link href="{% static 'css/auth/settings.css' %}" rel="stylesheet">{% endblock css %}
+
+{% block content %}
+<!-- <p>setting</p>
+<p>夜間模式進階</p>
+<p>相簿依時間排序</p>
+<p>主顏色</p> -->
+
+<div class="box-container">
+    <div class="box">
+        <span class="border-line"></span>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h2 id="settings-title" style="margin-bottom: 30px;">Settings</h2>
+            <label class="toggler-wrapper style-1">
+                <input type="checkbox" id="darkmode_checkbox"
+                {% if request.user.profile.darkmode %}checked{% endif %}>
+                <div class="toggler-slider">
+                  <div class="toggler-knob"></div>
+                </div>
+                <p id="settings-text1">Advanced Dark mode</p>
+            </label>
+            <p class="settings-text" id="settings-subtext1-1">After this mode is turned on, it will automatically switch to Light and Dark mode</p>
+            <p class="settings-text" id="settings-subtext1-2">Light mode start time : 6 a.m.</p>
+            <p class="settings-text" id="settings-subtext1-3" style="margin-bottom: 30px;">Dark mode start time : 6 p.m.</p>
+
+            <label class="toggler-wrapper style-1">
+                <input type="checkbox" id="album_date_sort_checkbox"
+                {% if request.user.profile.album_date_sort %}checked{% endif %}>
+                <div class="toggler-slider">
+                  <div class="toggler-knob"></div>
+                </div>
+                <p id="settings-text2">Album date sorting</p>
+            </label>
+            <p class="settings-text" id="settings-subtext2-1">After this mode is turned on, date sorting descending</p>
+            
+            <a href="{% url 'password_change' %}" id="settings-change-password">Password Change</a>
+            
+            
+        </form>
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/auth/settings.js' %}"></script>
+{% endblock %}

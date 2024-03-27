@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>image_multiple_folder</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/image/photo.css' %}" rel="stylesheet">
+<link href="{% static 'css/image/image_multiple_folder.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid photo image_multiple_folder" style="position: relative; min-height: 90vh;">
+    {% csrf_token %}
+    <h1 class="text-center h1-3D" id="image-multiple-folder-title">Image multiple folder</h1>
+    {% for date in date_list %}
+    <div class="photo-card photo-card{{date|cut:' / '}}" style="position: relative;">
+        <p class="datetime" id="d{{date|cut:' / '}}">{{date}}</p>
+        <div class="photo-btn-group">
+            {% if request.user.is_authenticated %}              
+                <a href="#" class="photo-delete-all btn-style1" data-datetime="{{date}}"
+                data-date-created="{{date|cut:' / '}}">Delete All</a>
+            {% endif %}
+        </div>
+        <hr>    
+        <div class="f f{{date|cut:' / '}}">
+            {% for folder in folders %}
+                {% if folder.created_at|date:'Y / m / d' == date %}
+                    <div class="folder folder{{folder.code}}" data-code="{{folder.code}}"
+                            data-toggle="modal" data-target="#Modal{{folder.code}}">
+                        <i class="fas fa-folder"></i>
+                        <!-- n:月无前导零 , j:没有前导零的月份的日子。 -->
+                        <p id="image-multiple-folder-text1">
+                            {{folder.created_at|date:'H : i '}}
+                            <span>{{folder.created_at|date:" : s "}}</span>
+                        </p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <p id="image-multiple-folder-empty">Folder is empty</p>
+    {% endfor %}
+    <p id="image-multiple-folder-empty" style="display: none;">Folder is empty</p>
+
+    {% if folders.has_other_pages %}
+    <ul class="pagination justify-content-center my-4 pagination-custom">
+        {% if folders.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{folders.previous_page_number}}"><i class="fas fa-angle-double-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"></li>
+        {% endif %}
+
+        {% if folders.number|add:'-2' > 1%}
+        <li class="page-item"><a class="page-link">&hellip;</a></li>
+        {% endif %}
+
+        {% for i in folders.paginator.page_range %}
+            {% if folders.number == i %}
+            <li class="page-item active"><a class="page-link">{{i}}</a></li>
+            {% elif i > folders.number|add:'-2' and i < folders.number|add:'2' %}
+            <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {%  if folders.paginator.num_pages > folders.number|add:'2' %}
+        <li class="page-item"><a class="page-link">&hellip;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{folders.paginator.num_pages}}">{{folders.paginator.num_pages}}</a></li>
+        {% endif %}
+
+        {% if folders.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{folders.next_page_number}}"><i class="fas fa-angle-double-right"></i></a></li>
+        <li class="page-item"><a class="page-link" href="?page={{folders.paginator.num_pages}}">Last</a></li>
+        {% else %}
+        <li class="page-item disabled"></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
+
+<style>
+    .modal input {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 4px 12px;
+        color: #fff;
+        background-color: var(--sidebar-inside-color) !important;
+        border: 1px solid var(--sidebar-inside-color-hover);
+        transition: 0.15s all ease-in-out;
+        background: white;
+    }
+    
+    .modal input::placeholder {
+        color: var(--sidebar-inside-color-hover);
+    }
+
+    .modal input:focus {
+        outline: none;
+        transform: scale(1.05);
+    }
+    
+    .modal .div {
+        display: flex;
+        justify-content: center;
+    }
+
+    .modal .ta {
+        width: 80%;
+        display: block;
+        margin-top: 20px !important;
+        height: 300px;
+        overflow-y: scroll;
+        border: 1px solid var(--sidebar-inside-color-hover);
+        margin: 0 auto;
+    }
+
+    .modal .ta::-webkit-scrollbar-thumb {
+        background: linear-gradient(var(--sidebar-inside-color-hover), var(--sidebar-inside-color-hover));
+        border-radius: 0px;
+    }
+
+    .modal table {
+        width: 100%;
+    }
+
+    .modal tr {
+        text-align: center;
+        height: 50px;
+        cursor: pointer;
+    }
+
+    .modal tr button {
+        width: 100%;
+        border: none;
+        height: 50px;
+        background-color: transparent;
+        color: #fff;
+    }
+
+    .modal tr button:hover {
+        background-color: #cccccd;
+        color: var(--bg-purple);
+        font-weight: 600;
+    }
+    
+    .modal p {
+        display: flex;
+        justify-content: right;
+        width: 95%;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .modal hr {
+        background-color: var(--sidebar-inside-color-hover);
+    }
+
+    .modal .btn-group {
+        width: 95%;
+    }
+
+    .modal .image-multiple-folder-modal-download-all {
+        width: 50%;
+        background-color: transparent;
+    }
+
+
+    .modal .image-multiple-folder-modal-download-all:active {
+        transform: scale(0.9);
+    }
+
+    .modal .image-multiple-folder-modal-delete-all {
+        width: 50%;
+        background-color: transparent;
+    }
+
+    .modal .image-multiple-folder-modal-delete-all:active {
+        transform: scale(0.9);
+    }
+
+    .modal .btn-style1 {
+        font-weight: initial !important;
+        padding: 9px 15px;
+        border: 2px solid transparent;
+        color: #FFF;
+        transition: all 0.5s;
+        position: relative;
+    }
+
+    .modal .btn-style1::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba(255,255,255,0.3);
+        transition: all 0.3s;
+    }
+
+    .modal .btn-style1:hover::before {
+        opacity: 0 ;
+        transform: scale(0.5,0.5);
+    }
+
+    .modal .btn-style1::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: all 0.3s;
+        border: 1px solid rgba(255,255,255,0.8);
+        transform: scale(1.2,1.2);
+    }
+
+    .modal .btn-style1:hover::after {
+        opacity: 1;
+        transform: scale(1,1);
+    }
+
+    @media screen and (max-width: 576px) {
+        .modal p {
+            font-size: 15px;
+        }
+
+        .modal .btn-style1 {
+            font-size: small;
+        }
+    }
+
+
+</style>
+
+<!-- Modal -->
+{% for folder_code_modal, photo_created_at in folder_zip %}
+<div class="modal fade" id="Modal{{folder_code_modal}}" tabindex="-1" aria-labelledby="ModalLabel{{folder_code_modal}}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background-color: var(--sidebar-inside-color);">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: #d1e5ff">&times;</span>
+            </button>
+            <div style="width:100%">
+                <input type="text" class="photo-search" data-code="{{folder_code_modal}}" placeholder="Search">
+            </div>
+            
+            <div class="div ta">
+                <table class="table{{folder_code_modal}}">
+                    {% for photo in photo_all_modal %}
+                        {% if photo.code == folder_code_modal %}
+                        <tr class="img{{photo.id}}">
+                            <td><button class="photo_btn" data-url="{% static photo.image_file.url %}"
+                                 data-photo-id="{{photo.id}}"
+                                 data-photo-code="{{folder_code_modal}}" data-date-created="{{photo_created_at}}"
+                                 >{{photo.name}}</button>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="div">
+                <p class="image-multiple-folder-modal-text">
+                    <span class="image-multiple-folder-modal-span1"></span> &nbsp;
+                    <span class="photo-code{{folder_code_modal}}" style="color: var(--bg-orange)"></span> &nbsp;
+                    <span class="image-multiple-folder-modal-span2">photos in total</span>
+                </p>
+            </div>
+            <hr>
+            <div class="div">
+                <div class="btn-group">
+                    {% if request.user.is_authenticated %}
+                    <button type="button" class="image-multiple-folder-modal-download-all btn-style1" data-photo-code="{{folder_code_modal}}">Download All</button>
+                    <a href="{% static 'zip/image_multiple_folder.zip' %}" class="zip_download{{folder_code_modal}}" style="display: none;" download></a>
+                    <button type="button" class="image-multiple-folder-modal-delete-all btn-style1" data-photo-code="{{folder_code_modal}}"
+                    data-date-created="{{photo_created_at}}">Delete All</button>
+                    {% else %}
+                    <button type="button" class="image-multiple-folder-modal-download-all btn-style1" data-photo-code="{{folder_code_modal}}"
+                            style="width: 100% !important">Download All</button>
+                    <a href="{% static 'zip/image_multiple_folder.zip' %}" class="zip_download{{folder_code_modal}}" style="display: none;" download></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block script %} 
+
+<script src="{% static 'js/image/image_multiple_folder.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>image</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/mainapp/image.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid yolo-image" style="position: relative; z-index: 1;">
+    <div class="row rowflex">
+        <div class="wh"> <!-- 使用relative或absolute後 padding margin會失效 -->    
+            <div class="relative">
+                <h1 class="text-center h1-3D" id="image-image1-title">Original</h1>
+                {% csrf_token %}
+                <div class="first-container">
+                    <div class="card card1 image_card_border">
+                        <i class="fas fa-file-upload"></i>
+                        <p class="text" id="image-image1-text1">Drap the image here</p>
+                        <div class="upload_button">
+                            <input type="file" name="file" id="file" accept="image/*">
+                            <label for="file" id="image-image1-text2">Choose a Image</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card1 image_card_border second-container" >
+                    <img class="img-card">
+                </div>
+            </div>
+            
+            <div class="image-btn group-btn text-center">
+                <button class="left-btn btn-style1" id="image-image1-left-btn" 
+                        data-alert-url="{% url 'image:photo' %}" disabled>Detect</button>
+                <button class="right-btn btn-style1" id="image-image1-right-btn" disabled>Back</button>
+            </div>
+        </div>
+
+        <div class="wh">
+            <h1 class="text-center h1-3D" id="image-image2-title">Output</h1>
+            <div class="card card2" >
+                <img class="card2-img d-none" id="output_image" src="" alt="">
+            </div>
+            <div class="image-btn group-btn2 text-center" style="margin-top: 26px;">
+                <button class="left-btn btn-style1" id="image-image2-left-btn" disabled>Download</button>
+                <button class="right-btn btn-style1" id="image-image2-right-btn" disabled>Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="image-download"></div>
+
+<!-- Loading Modal-->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content h-490">
+        <div class="modal-body" style="height: 500px; background-color: var(--sidebar-inside-color);">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="h250">
+                <div class="bar m-auto">
+                    <div class="circle"></div>
+                    <p class="p" id="image-modal">loading...</p>
+                  </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/mainapp/image.js' %}"></script>
+{% endblock %}

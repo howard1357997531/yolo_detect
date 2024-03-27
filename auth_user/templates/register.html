@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Register</title>{% endblock %}
+{% block css %}<link href="{% static 'css/auth/register.css' %}" rel="stylesheet">{% endblock css %}
+
+{% block content %}
+<!-- password預設submit後會消失，  -->
+<div class="box-container">
+    <div class="box">
+        <span class="border-line"></span>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h2 id="register-title">Create Account</h2>
+            <div class="inputBox">
+                {{form.username}}
+                <span id="register-account-number">Account number</span>
+                <i></i>
+            </div>
+            {{form.username.errors}}
+            <div class="inputBox">
+                {{form.first_name}}
+                <span id="register-name">Name</span>
+                <i></i>
+            </div>
+            {{form.first_name.errors}}
+            <!-- input:email 不支援 onchange -->
+            <div class="inputBox">
+                {{form.email}}
+                <span class="email-span" id="register-email">Email</span>
+                <i class="email-i"></i>
+            </div>
+            {{form.email.errors}}
+            <div class="inputBox">
+                {{form.password1}}
+                <span class="password-span" id="register-password">Password</span>
+                <i class="password-i"></i>
+            </div> 
+            {{form.password.errors}}
+            <div class="inputBox">
+                {{form.password2}}
+                <span class="password-span" id="register-password-confirm">Password Confirm</span>
+                <i class="password-i"></i>
+            </div>
+            {{form.password2.errors}}
+            <div class="links">
+                <a href="" style="opacity: 0;"></a>
+                <a href="{% url 'auth_user:login' %}" id="register-signin">Sign in</a>
+            </div>
+            <button type="submit" id="register-submitbtn">Sign Up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{% static 'js/auth/register.js' %}"></script>
+{% endblock %}
+
+<!-- <form action="" method="POST">
+    {% csrf_token %}
+    <p>username: </p>
+    {{form.username}}
+    {{form.username.errors}}
+    <p>email: </p>
+    {{form.email}}
+    {{form.email.errors}}
+    <p>password: </p>
+    {{form.password1}}
+    {{form.password1.errors}}
+    <p>password2: </p>
+    {{form.password2}}
+    {{form.password2.errors}}
+    <br>
+    <input type="submit" value="送出">
+
+</form> -->

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Web Camera</title>{% endblock %}
+{% block css %}
+<link href="{% static 'css/mainapp/web_camera.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid web-camera">
+    <div class="row">
+        <div class="wh mx-auto">
+            <h1 class="text-center h1-3D" id="web-camera-title">Web Camera</h1>
+            
+            <div class="text-center wh_inherit">
+                <div class="yolo-output">
+                    <i class="fas fa-exclamation-circle tool-icon"></i>
+                    <div class="ratio-detail text-left" style="display: none;">
+                        <p id="web-camera-ratio-detail-custom-scale">Custom scale :</p>
+                        <input type="number" id="ratio-detail-width">
+                        <span> : </span>
+                        <input type="number" id="ratio-detail-height">
+                        <button id="web-camera-ratio-detail-sendbtn">Send</button>
+                        <hr>
+                        <p id="web-camera-ratio-detail-commonly-used">Commonly used :</p>
+                        <div class="group-btn">
+                            <button id="4-3btn" class="active-btn">4 : 3</button>
+                            <button id="16-9btn">16 : 9</button>
+                            <button id="web-camera-full-screen-btn">Full</button>
+                        </div>
+                    </div>
+                    <div class="loading-icon"></div>
+                    <div class="loading-text"><p id="web-camera-loading">loading</p></div>
+                </div>
+                <div class="web-camera-groupbtn">
+                    <button class="left-btn btn-style1" id="web-camera-openbtn">Open Camera</button>
+                    <button class="right-btn btn-style1" id="web-camera-closebtn" disabled>Close Camera</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script type="">
+    {% for message in messages %}
+        alertify.warning('{{message|safe}}');
+    {% endfor %}
+</script>
+<script src="{% static 'js/mainapp/web_camera.js' %}"></script>
+{% endblock %}
